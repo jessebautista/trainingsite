@@ -1,0 +1,202 @@
+---
+import React, { useState } from 'react';
+import swell from 'swell-js';
+
+// Initialize Swell with your store ID and public API key
+swell.init('jesse-swell-internal-horizon1112', 'pk_test_e8uqpwFEn8HF2l7uvxaU0qK7FjDxxmlC');
+
+const productPayload = {
+  name: "Sign on Hat",
+  sku: "hat",
+  active: true,
+  images: [
+    {
+      file: {
+        id: "64b1555c87334b0012ab2781",
+        date_uploaded: "2023-07-14T14:02:06.025Z",
+        length: 3448184,
+        md5: "e60d12c10886cf310c3c5141a7c2b8f3",
+        filename: null,
+        content_type: "image/jpeg",
+        url: "https://cdn.swell.store/truwear-sandbox/64b1555c87334b0012ab2781/e60d12c10886cf310c3c5141a7c2b8f3",
+        width: 3408,
+        height: 2272
+      },
+      id: "64b15545c1421f00126c0df7"
+    },
+    {
+      file: {
+        id: "64b1555d010bb700119ee555",
+        date_uploaded: "2023-07-14T14:02:07.940Z",
+        length: 5352404,
+        md5: "ea34247781f96916932bc72e6367cab6",
+        filename: null,
+        content_type: "image/jpeg",
+        url: "https://cdn.swell.store/truwear-sandbox/64b1555d010bb700119ee555/ea34247781f96916932bc72e6367cab6",
+        width: 3408,
+        height: 2272
+      },
+      id: "64b15564f3d4390012492392"
+    },
+    {
+      file: {
+        id: "64b1555c1e178f001121bb1f",
+        date_uploaded: "2023-07-14T14:02:05.519Z",
+        length: 3820208,
+        md5: "c0b1a827337ae62787225213f6e5d6c4",
+        filename: null,
+        content_type: "image/jpeg",
+        url: "https://cdn.swell.store/truwear-sandbox/64b1555c1e178f001121bb1f/c0b1a827337ae62787225213f6e5d6c4",
+        width: 3408,
+        height: 2272
+      },
+      id: "64b15564f3d4390012492393"
+    }
+  ],
+  purchase_options: {
+    standard: {
+      active: true,
+      price: 20,
+      sale: false,
+      sale_price: 0,
+      prices: []
+    }
+  },
+  variable: true,
+  description: null,
+  tags: [],
+  meta_title: null,
+  meta_description: null,
+  slug: "moxie-2024-sign-on-hat",
+  attributes: {
+    color: [
+      "Red",
+      "Blue"
+    ]
+  },
+  delivery: "shipment",
+  bundle: false,
+  price: 20,
+  stock_tracking: true,
+  options: [
+    {
+      id: "662a2c2c025863b6906a0606",
+      name: "Color",
+      values: [
+        {
+          id: "662a2c80025863b6906a0607",
+          name: "Red"
+        },
+        {
+          id: "662a2c80025863b6906a0608",
+          name: "Blue"
+        }
+      ],
+      variant: true,
+      input_type: "select",
+      required: true,
+      active: true,
+      attribute_id: "color"
+    }
+  ],
+  content: {
+    product_highlights: [],
+    expandable_details: []
+  },
+  products_type: [],
+  feature_images: null,
+  detail_image: null,
+  featured_image: null,
+  currency: "USD",
+  type: "physical",
+  date_created: "2023-07-10T18:30:52.261Z",
+  date_updated: "2024-05-16T12:18:30.997Z",
+  product_sale_type: "on_demand",
+  stock_purchasable: true,
+  bundle_items: [],
+  cost: 0,
+  sale: false,
+  sale_price: 0,
+  prices: [],
+  dimensions: false,
+  shipment_dimensions: null,
+  shipment_package_quantity: null,
+  shipment_prices: [],
+  shipment_weight: null,
+  id: "64ac4e5c2fad3400123a9c40",
+  variants: [
+    {
+      parent_id: "64ac4e5c2fad3400123a9c40",
+      name: "Blue",
+      active: true,
+      option_value_ids: [
+        "662a2c80025863b6906a0608"
+      ],
+      date_created: "2024-04-25T10:12:17.264Z",
+      date_updated: "2024-05-16T11:23:47.465Z",
+      sku: "Hat-B",
+      attributes: {},
+      price: 12,
+      prices: [],
+      purchase_options: {
+        standard: {
+          price: 12,
+          sale: false,
+          sale_price: null,
+          prices: []
+        }
+      },
+      sale: false,
+      sale_price: null,
+      id: "662a2c81452fb10012f1989e"
+    },
+    {
+      parent_id: "64ac4e5c2fad3400123a9c40",
+      name: "Red",
+      active: true,
+      option_value_ids: [
+        "662a2c80025863b6906a0607"
+      ],
+      date_created: "2024-04-25T10:12:17.264Z",
+      date_updated: "2024-05-16T10:15:13.070Z",
+      sku: "Hat-R",
+      id: "662a2c81452fb10012f1989d"
+    }
+  ]
+};
+
+const CreateProductPage = () => {
+  const [message, setMessage] = useState('');
+
+  const createProduct = async () => {
+    try {
+      await swell.post('/products', productPayload);
+      setMessage('Product created!');
+    } catch (error) {
+      console.error('Error creating product:', error);
+      setMessage('Failed to create product');
+    }
+  };
+
+  return (
+    <div>
+      <h1>Create Product</h1>
+      <button onClick={createProduct}>Create Product</button>
+      {message && <p>{message}</p>}
+    </div>
+  );
+};
+
+export default CreateProductPage;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Product</title>
+  </head>
+  <body>
+    <CreateProductPage />
+  </body>
+</html>

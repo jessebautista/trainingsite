@@ -1,0 +1,95 @@
+---
+// src/components/Sidebar.astro
+import { getContent } from '../utils/getContent';
+import path from 'path';
+
+const contentList = getContent();
+
+function generateMenu(contentList) {
+  const menu = {};
+
+  contentList.forEach(content => {
+    if (!content.path) {
+      return;
+    }
+    const parts = content.path.split(path.sep);
+    let current = menu;
+
+    parts.forEach((part, index) => {
+      if (!current[part]) {
+        current[part] = index === parts.length - 1 ? content : {};
+      }
+      current = current[part];
+    });
+  });
+
+  return menu;
+}
+
+const menu = generateMenu(contentList);
+---
+<style>
+  .sidebar {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  }
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .sidebar ul ul {
+    padding-left: 20px;
+  }
+  .sidebar ul li {
+    margin: 10px 0;
+  }
+  .sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+  }
+</style>
+
+<div class="sidebar">
+  <ul>
+    {Object.keys(menu).map(section => (
+      <li key={section}>
+        {typeof menu[section] === 'object' && !menu[section].slug ? section : <a href="#" data-slug={menu[section].slug}>{menu[section].title}</a>}
+        {typeof menu[section] === 'object' && !menu[section].slug && (
+          <ul>
+            {Object.keys(menu[section]).map(subsection => (
+              <li key={subsection}>
+                {typeof menu[section][subsection] === 'object' && !menu[section][subsection].slug ? subsection : <a href="#" data-slug={menu[section][subsection].slug}>{menu[section][subsection].title}</a>}
+                {typeof menu[section][subsection] === 'object' && !menu[section][subsection].slug && (
+                  <ul>
+                    {Object.keys(menu[section][subsection]).map(subsubsection => (
+                      <li key={subsubsection}>
+                        <a href="#" data-slug={menu[section][subsubsection].slug}>{menu[section][subsection][subsubsection].title}</a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </li>
+    ))}
+  </ul>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.sidebar a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const slug = e.target.getAttribute('data-slug');
+        window.loadContent(slug);
+      });
+    });
+  });
+</script>

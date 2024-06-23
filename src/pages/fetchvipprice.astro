@@ -1,0 +1,38 @@
+---
+import swell from 'swell-node';
+
+swell.init('jesse-swell-internal-horizon1112', 'sk_test_y2hzNnicUG1cTTULoFrY9C0AOlOnAieI');
+
+const productId = '66573e1af1613000125586ce';
+const accountGroup = 'vip1';
+
+const product = await swell.get(`/products/${productId}`, {});
+
+let vipPrice = null;
+
+if (product.prices && product.prices.length > 0) {
+  const vipPriceObj = product.prices.find(price => price.account_group === accountGroup);
+  if (vipPriceObj) {
+    vipPrice = vipPriceObj.price;
+  }
+}
+
+console.log('Fetching menus...');
+const menu = await swell.settings.menus();
+console.log('Menus fetched:', menu);
+
+---
+
+<html>
+  <head>
+    <title>{product.name}</title>
+  </head>
+  <body>
+    <h1>{product.name}</h1>
+    {vipPrice ? (
+      <p>VIP Price: ${vipPrice}</p>
+    ) : (
+      <p>No VIP price available for this product.</p>
+    )}
+  </body>
+</html>

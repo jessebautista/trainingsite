@@ -1,0 +1,36 @@
+---
+// src/components/CodingSection.astro
+---
+<style>
+    .coding-section {
+      width: 100%;
+      height: 100%;
+      background-color: #f9f9f9;
+      padding: 20px;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    }
+    .coding-section textarea {
+      width: 100%;
+      height: 70%;
+      margin-bottom: 10px;
+    }
+    .coding-section iframe {
+      width: 100%;
+      height: 30%;
+    }
+  </style>
+  
+  <div class="coding-section">
+    <h2>Code Editor</h2>
+    <textarea id="code-input" placeholder="Type your code here..."></textarea>
+    <iframe id="code-output"></iframe>
+  </div>
+  
+  <script>
+    document.getElementById('code-input').addEventListener('input', function() {
+      const code = this.value;
+      const output = document.getElementById('code-output');
+      output.srcdoc = code;
+    });
+  </script>
+  

@@ -1,0 +1,60 @@
+---
+// Import Swell SDK
+import swell from 'swell-js';
+
+// Initialize Swell with your store ID and public API key
+swell.init('jesse-swell-internal-horizon1112', 'pk_test_e8uqpwFEn8HF2l7uvxaU0qK7FjDxxmlC');
+
+// Get the cart ID from the query parameters or a variable
+const cartId = '66662ce983ae970012f8c644';
+
+// Specify the product ID
+const productId = '6644cfefd5c5f70012b06b53';
+
+// Function to recover the cart and add items
+async function recoverCartAndAddItems() {
+  try {
+    // Recover the cart using the cart ID
+    await swell.cart.recover(cartId);
+
+    // Add items to the recovered cart
+    const result = await swell.cart.addItem({
+      product_id: productId,
+      items: [
+        {
+          quantity: 50,
+          options: [
+            { name: 'Size', value: 'S' },
+            { name: 'Color', value: 'Red' }
+          ]
+        },
+        {
+          quantity: 50,
+          options: [
+            { name: 'Size', value: 'S' },
+            { name: 'Color', value: 'Blue' }
+          ]
+        }
+      ]
+    });
+
+    console.log('Items added to the cart:', result);
+  } catch (error) {
+    console.error('Error recovering cart or adding items:', error);
+    // Handle the error, display an error message, or take appropriate action
+  }
+}
+
+// Call the function to recover the cart and add items
+recoverCartAndAddItems();
+---
+
+<html>
+  <head>
+    <title>Add Items to Cart</title>
+  </head>
+  <body>
+    <h1>Add Items to Cart</h1>
+    <p>Product added to cart</p>
+  </body>
+</html>

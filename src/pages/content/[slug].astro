@@ -1,0 +1,19 @@
+---
+// src/pages/content/[slug].astro
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import { getContent } from '../../utils/getContent';
+
+const { slug } = Astro.params;
+const contentList = getContent();
+const content = contentList.find((item) => item.slug === slug);
+
+if (!content) {
+  throw new Error(`Content for slug "${slug}" not found`);
+}
+---
+<ContentLayout>
+  <h1>{content.title}</h1>
+  <article class="markdown">
+    {Astro.markdown(content.content)}
+  </article>
+</ContentLayout>

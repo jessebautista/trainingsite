@@ -1,0 +1,29 @@
+---
+// Import Swell SDK
+import swell from 'swell-js';
+
+// Initialize Swell with your store ID and public API key
+swell.init('jesse-swell-internal-horizon1112', 'pk_test_e8uqpwFEn8HF2l7uvxaU0qK7FjDxxmlC');
+
+// Fetch products with hard-coded search query
+const fetchProducts = async () => {
+  const response = await swell.get('/products', {
+    search: 'customer food',
+  });
+  return response;
+};
+
+// Get products with hard-coded search query
+const products = await fetchProducts();
+---
+
+<div>
+  <h1>Total Products: {products.results.length}</h1>
+  {products.results.map((product) => (
+    <div key={product.id}>
+      <h2>{product.name}</h2>
+      <img src={product.images?.[0]?.file?.url || '/default-image.jpg'} alt={product.name} />
+      <p>{product.price}</p>
+    </div>
+  ))}
+</div>

@@ -1,0 +1,33 @@
+---
+import swell from 'swell-js';
+
+// Initialize swell with your store ID and public key
+swell.init('jesse-swell-internal-horizon1112', 'pk_test_e8uqpwFEn8HF2l7uvxaU0qK7FjDxxmlC');
+
+let menus = null;
+
+// Fetch the settings menus
+const fetchMenus = async () => {
+  try {
+    menus = await swell.settings.menus();
+    console.log('Menus:', menus);
+  } catch (error) {
+    console.error('Error fetching menus:', error);
+  }
+};
+
+// Call the function to fetch menus
+fetchMenus();
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menus</title>
+</head>
+<body>
+  <h1>Check the console for menus</h1>
+</body>
+</html>

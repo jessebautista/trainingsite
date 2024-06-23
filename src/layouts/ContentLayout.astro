@@ -1,0 +1,47 @@
+---
+// src/layouts/ContentLayout.astro
+import MainLayout from './MainLayout.astro';
+---
+<style>
+  .markdown {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  .markdown p {
+    margin-bottom: 20px;
+  }
+  .markdown ul {
+    padding-left: 20px;
+    margin-bottom: 20px;
+  }
+  .markdown li {
+    margin-bottom: 10px;
+  }
+  .markdown a {
+    color: #007acc;
+    text-decoration: none;
+  }
+  .markdown a:hover {
+    text-decoration: underline;
+  }
+  .markdown blockquote {
+    border-left: 4px solid #ddd;
+    padding-left: 15px;
+    color: #666;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  .markdown code {
+    background-color: #f4f4f4;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+</style>
+
+<MainLayout>
+  <slot />
+</MainLayout>

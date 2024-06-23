@@ -1,0 +1,37 @@
+---
+// Import the Mailchimp marketing package
+import mailchimp from '@mailchimp/mailchimp_marketing';
+
+// Configure the Mailchimp client
+mailchimp.setConfig({
+  apiKey: '7f706804835937c36a1694f1efd716a3-us8',
+  server: 'us8',
+});
+
+// Function to fetch campaigns
+async function fetchCampaigns() {
+  try {
+    const response = await mailchimp.campaigns.list();
+    console.log('Fetched campaigns:', response.campaigns); // Log fetched campaigns
+    return response.campaigns;
+  } catch (error) {
+    console.error('Failed to fetch campaigns', error); // Log error if fetching fails
+    return [];
+  }
+}
+
+const campaigns = await fetchCampaigns();
+---
+
+<div>
+  <h1>Mailchimp Campaigns</h1>
+  <ul>
+    {campaigns.map((campaign) => (
+      <li key={campaign.id}>
+        <strong>{campaign.settings.title}</strong> (<em>{campaign.settings.subject_line}</em>)<br />
+        From: {campaign.settings.from_name} <br />
+        Reply to: {campaign.settings.reply_to}
+      </li>
+    ))}
+  </ul>
+</div>
