@@ -28,47 +28,36 @@ function generateMenu(contentList) {
 
 const menu = generateMenu(contentList);
 ---
-<style>
-  .sidebar {
-    width: 100%;
-    height: 100%;
-    background-color: #f4f4f4;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  }
-  .sidebar ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  .sidebar ul ul {
-    padding-left: 20px;
-  }
-  .sidebar ul li {
-    margin: 10px 0;
-  }
-  .sidebar ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    cursor: pointer;
-  }
-</style>
 
-<div class="sidebar">
-  <ul>
+<div class="sidebar w-64 h-screen bg-gray-50 dark:bg-gray-800 overflow-y-auto">
+  <ul class="space-y-2 font-medium p-4">
     {Object.keys(menu).map(section => (
-      <li key={section}>
-        {typeof menu[section] === 'object' && !menu[section].slug ? section : <a href="#" data-slug={menu[section].slug}>{menu[section].title}</a>}
+      <li>
+        {typeof menu[section] === 'object' && !menu[section].slug ? (
+          <span class="text-gray-900 dark:text-white font-bold">{section}</span>
+        ) : (
+          <a href="#" data-slug={menu[section].slug} class="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 block p-2 rounded-lg">
+            {menu[section].title}
+          </a>
+        )}
         {typeof menu[section] === 'object' && !menu[section].slug && (
-          <ul>
+          <ul class="ml-4 mt-2 space-y-1">
             {Object.keys(menu[section]).map(subsection => (
-              <li key={subsection}>
-                {typeof menu[section][subsection] === 'object' && !menu[section][subsection].slug ? subsection : <a href="#" data-slug={menu[section][subsection].slug}>{menu[section][subsection].title}</a>}
+              <li>
+                {typeof menu[section][subsection] === 'object' && !menu[section][subsection].slug ? (
+                  <span class="text-gray-900 dark:text-white">{subsection}</span>
+                ) : (
+                  <a href="#" data-slug={menu[section][subsection].slug} class="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 block p-2 rounded-lg">
+                    {menu[section][subsection].title}
+                  </a>
+                )}
                 {typeof menu[section][subsection] === 'object' && !menu[section][subsection].slug && (
-                  <ul>
+                  <ul class="ml-4 mt-2 space-y-1">
                     {Object.keys(menu[section][subsection]).map(subsubsection => (
-                      <li key={subsubsection}>
-                        <a href="#" data-slug={menu[section][subsubsection].slug}>{menu[section][subsection][subsubsection].title}</a>
+                      <li>
+                        <a href="#" data-slug={menu[section][subsection][subsubsection].slug} class="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 block p-2 rounded-lg">
+                          {menu[section][subsection][subsubsection].title}
+                        </a>
                       </li>
                     ))}
                   </ul>
@@ -88,7 +77,11 @@ const menu = generateMenu(contentList);
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const slug = e.target.getAttribute('data-slug');
-        window.loadContent(slug);
+        if (typeof window.loadContent === 'function') {
+          window.loadContent(slug);
+        } else {
+          console.error('loadContent function not available');
+        }
       });
     });
   });

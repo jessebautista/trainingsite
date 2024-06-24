@@ -1,9 +1,9 @@
-// astro.config.mjs
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import tailwind from '@astrojs/tailwind'; // Add this import
 
 export default defineConfig({
   output: 'server',
@@ -17,5 +17,10 @@ export default defineConfig({
     remarkPlugins: [remarkGfm],
     rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
   },
-  integrations: [],
+  integrations: [tailwind()], // This should now work
+  vite: {
+    ssr: {
+      external: ["svgo"],
+    },
+  },
 });
